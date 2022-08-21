@@ -17,7 +17,7 @@ namespace jrbit\novu;
 class Client {
     /* Library constants */
 
-    public const NOVU_PHP_VERSION = "0.0.1";
+    public const NOVU_PHP_VERSION = "0.1.0";
     public const CURL_USER_AGENT = "NovuPHP {{ version }} Library";
 
 
