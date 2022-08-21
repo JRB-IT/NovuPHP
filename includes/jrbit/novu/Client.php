@@ -43,6 +43,11 @@ class Client {
     }
 
 
+    public function Subscribers(): api\Subscribers
+    {
+        return new api\Subscribers($this->sApiKey, $this->sApiUrl);
+    }
+
 
 
 }

@@ -28,8 +28,6 @@ class Events implements novu\interfaces\IEvents {
 
     public function Trigger(novu\models\MTriggerBody $mBody): novu\models\MTriggerEventResponse {
 
-
-
         $Request = novu\HTTP::POST(novu\Client::constructUrl($this->sApiUrl, self::TRIGGER_ENDPOINT, []),
         $mBody->toArray(),
         [
