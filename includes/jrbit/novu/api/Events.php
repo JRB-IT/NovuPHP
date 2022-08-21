@@ -27,29 +27,22 @@ class Events implements novu\interfaces\IEvents {
     ){}
 
     public function Trigger(novu\models\MTriggerBody $mBody): novu\models\MTriggerEventResponse {
-        $ch = \curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, novu\Client::constructUrl($this->sApiUrl, self::TRIGGER_ENDPOINT));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, 
-            http_build_query($mBody->toArray())
-        );
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+
+
+        $Request = novu\HTTP::POST(novu\Client::constructUrl($this->sApiUrl, self::TRIGGER_ENDPOINT, []),
+        $mBody->toArray(),
+        [
             'Authorization: ApiKey ' . $this->sApiKey
-        ));
+        ]
+        );
 
-        $CURLResponse = curl_exec($ch);
-        $CURLResponseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-
-        if ($CURLResponseCode != 201) {
-            throw new \Exception("$CURLResponseCode Request Error.");
+        if ($Request->getCode() != 201) {
+            throw new \Exception($Request->getCode() . " Request Error.");
         }
 
 
-        $oJson = json_decode($CURLResponse)->data;
+        $oJson = json_decode($Request->getBody())->data;
 
 
         return new novu\models\MTriggerEventResponse(
@@ -61,29 +54,21 @@ class Events implements novu\interfaces\IEvents {
 
 
     public function Broadcast(novu\models\MBroadcastBody $mBody): novu\models\MBroadcastEventResponse {
-        $ch = \curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, novu\Client::constructUrl($this->sApiUrl, self::BROADCAST_ENDPOINT));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, 
-            http_build_query($mBody->toArray())
-        );
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        $Request = novu\HTTP::POST(novu\Client::constructUrl($this->sApiUrl, self::BROADCAST_ENDPOINT, []),
+        $mBody->toArray(),
+        [
             'Authorization: ApiKey ' . $this->sApiKey
-        ));
-
-        $CURLResponse = curl_exec($ch);
-        $CURLResponseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+        ]
+        );
 
 
-        if ($CURLResponseCode != 201) {
-            throw new \Exception("$CURLResponseCode Request Error.");
+        if ($Request->getCode() != 201) {
+            throw new \Exception($Request->getCode() . " Request Error.");
         }
 
 
-        $oJson = json_decode($CURLResponse)->data;
+        $oJson = json_decode($Request->getBody())->data;
 
 
         return new novu\models\MBroadcastEventResponse(
@@ -91,6 +76,18 @@ class Events implements novu\interfaces\IEvents {
             $oJson->status, 
             $oJson->transactionId
         );
+    }
+
+    public function Cancel(string $sTransactionId): bool {
+
+        $Request = novu\HTTP::DELETE(novu\Client::constructUrl($this->sApiUrl, self::CANCEL_EVENT_ENDPOINT, [
+            ":transactionId" => $sTransactionId
+            ]
+        ), [
+            'Authorization: ApiKey ' . $this->sApiKey
+        ]);
+
+        return $Request->getCode() == 200;
     }
 
 }
