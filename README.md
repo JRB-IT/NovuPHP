@@ -17,7 +17,7 @@ Requires PHP 8.1
 
 ### Composer
 
-1. `composer require jrb-it/novuphp`
+1. `composer require jrb-it/novu-php`
 2. include `vendor/autoload.php`
 3. See Usage
 
