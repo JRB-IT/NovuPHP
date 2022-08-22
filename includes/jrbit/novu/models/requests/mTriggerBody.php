@@ -5,16 +5,16 @@
  * All rights reserved.
  */
 
-namespace jrbit\novu\models;
+namespace jrbit\novu\models\requests;
 
 use jrbit\novu;
 
-final class MTriggerBody extends \stdClass {
+final class mTriggerBody extends \stdClass {
 
     public function __construct(
         private string $sName,
         private array $aPayload,
-        private novu\models\MTriggerTo $mTo,
+        private novu\models\mTriggerTo $mTo,
         private ?string $sTransactionId = null,
         private ?array $aOverrides = null
     ){}
@@ -34,7 +34,7 @@ final class MTriggerBody extends \stdClass {
         return $this->aOverrides;
     }
 
-    public function getTo(): novu\models\MTriggerTo
+    public function getTo(): novu\models\mTriggerTo
     {
         return $this->mTo;
     }

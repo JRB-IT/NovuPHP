@@ -13,7 +13,7 @@ interface IEvents {
 
     public function __construct(string $sApiKey, string $sApiUrl);
 
-    public function Trigger(novu\models\MTriggerBody $mBody): novu\models\MTriggerEventResponse;
-    public function Broadcast(novu\models\MBroadcastBody $mBody): novu\models\MBroadcastEventResponse;
+    public function Trigger(novu\models\requests\mTriggerBody $mBody): novu\models\responses\mTriggerEventResponse;
+    public function Broadcast(novu\models\requests\mBroadcastBody $mBody): novu\models\responses\mBroadcastEventResponse;
     public function Cancel(string $sTransactionId): bool;
 }

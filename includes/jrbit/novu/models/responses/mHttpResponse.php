@@ -5,11 +5,11 @@
  * All rights reserved.
  */
 
-namespace jrbit\novu\models;
+namespace jrbit\novu\models\responses;
 
 use jrbit\novu;
 
-final class MHttpResponse extends \stdClass {
+final class mHttpResponse extends \stdClass {
 
     public function __construct(
         private string $sBody,

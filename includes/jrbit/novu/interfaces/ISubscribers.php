@@ -13,5 +13,5 @@ interface ISubscribers {
 
     public function __construct(string $sApiKey, string $sApiUrl);
 
-    public function List(int $iPage = 0): novu\models\MListSubscriberResponse;
+    public function List(int $iPage = 0): novu\models\responses\mListSubscriberResponse;
 }

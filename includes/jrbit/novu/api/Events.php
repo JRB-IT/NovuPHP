@@ -26,7 +26,7 @@ class Events implements novu\interfaces\IEvents {
         private string $sApiUrl
     ){}
 
-    public function Trigger(novu\models\MTriggerBody $mBody): novu\models\MTriggerEventResponse {
+    public function Trigger(novu\models\requests\mTriggerBody $mBody): novu\models\responses\mTriggerEventResponse {
 
         $Request = novu\HTTP::POST(novu\Client::constructUrl($this->sApiUrl, self::TRIGGER_ENDPOINT, []),
         $mBody->toArray(),
@@ -43,7 +43,7 @@ class Events implements novu\interfaces\IEvents {
         $oJson = json_decode($Request->getBody())->data;
 
 
-        return new novu\models\MTriggerEventResponse(
+        return new novu\models\responses\mTriggerEventResponse(
             $oJson->acknowledged, 
             $oJson->status, 
             $oJson->transactionId
@@ -51,7 +51,7 @@ class Events implements novu\interfaces\IEvents {
     }
 
 
-    public function Broadcast(novu\models\MBroadcastBody $mBody): novu\models\MBroadcastEventResponse {
+    public function Broadcast(novu\models\requests\mBroadcastBody $mBody): novu\models\responses\mBroadcastEventResponse {
 
         $Request = novu\HTTP::POST(novu\Client::constructUrl($this->sApiUrl, self::BROADCAST_ENDPOINT, []),
         $mBody->toArray(),
@@ -69,7 +69,7 @@ class Events implements novu\interfaces\IEvents {
         $oJson = json_decode($Request->getBody())->data;
 
 
-        return new novu\models\MBroadcastEventResponse(
+        return new novu\models\responses\mBroadcastEventResponse(
             $oJson->acknowledged, 
             $oJson->status, 
             $oJson->transactionId

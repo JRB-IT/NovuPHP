@@ -5,11 +5,11 @@
  * All rights reserved.
  */
 
-namespace jrbit\novu\models;
+namespace jrbit\novu\models\requests;
 
 use jrbit\novu;
 
-final class MBroadcastBody extends \stdClass {
+final class mBroadcastBody extends \stdClass {
 
     public function __construct(
         private string $sName,

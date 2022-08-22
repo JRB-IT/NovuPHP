@@ -9,7 +9,7 @@ namespace jrbit\novu\models;
 
 use jrbit\novu;
 
-final class MSubscriber extends \stdClass {
+final class mDetailedSubscriber extends \stdClass {
 
     public function __construct(
         private string $sInternalId,
@@ -30,11 +30,19 @@ final class MSubscriber extends \stdClass {
         private string $sApiUrl
     ){}
 
+    public function save(): bool
+    {
+        
+    }
 
     public function delete(): bool
     {
         $Subscribers = new novu\api\Subscribers($this->sApiKey, $this->sApiUrl);
-        return $Subscribers->Delete($this->sSubscriberId);
+        if($Subscribers->Delete($this->sSubscriberId)){
+            $this->bDeleted;
+            return true;
+        }
+        return false;
     }
 
 
@@ -106,5 +114,29 @@ final class MSubscriber extends \stdClass {
     public function getEnvironmentId(): string
     {
         return $this->sEnvironmentId;
+    }
+
+    public function setFirstName(string $value): this
+    {
+        $this->sFirstName = $value;
+        return $this;
+    }
+
+    public function setLastName(string $value): this
+    {
+        $this->sLastName = $value;
+        return $this;
+    }
+
+    public function setEmail(string $value): this
+    {
+        $this->sEmail = $value;
+        return $this;
+    }
+
+    public function setPhone(string $value): this
+    {
+        $this->sPhone = $value;
+        return $this;
     }
 }

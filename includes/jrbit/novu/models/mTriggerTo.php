@@ -10,7 +10,7 @@ namespace jrbit\novu\models;
 use jrbit\novu;
 
 
-final class MTriggerTo extends \stdClass {
+final class mTriggerTo extends \stdClass {
 
     public function __construct(
         private ?string $sSubscriberId = null,

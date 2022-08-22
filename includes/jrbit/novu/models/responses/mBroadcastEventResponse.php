@@ -5,10 +5,10 @@
  * All rights reserved.
  */
 
-namespace jrbit\novu\models;
+namespace jrbit\novu\models\responses;
 use jrbit\novu;
 
-final class MTriggerEventResponse extends \stdClass {
+final class mBroadcastEventResponse extends \stdClass {
 
 
     public function __construct(
