@@ -22,7 +22,41 @@ final class MSubscriber extends \stdClass {
         private array $aChannels,
         private string $sOrganizationId,
         private string $sEnvironmentId,
+        private bool $bDeleted,
+        private string $sCreatedAt,
+        private string $sUpdatedAt,
+        private int $iV,
+        private string $sApiKey,
+        private string $sApiUrl
     ){}
+
+
+    public function delete(): bool
+    {
+        $Subscribers = new novu\api\Subscribers($this->sApiKey, $this->sApiUrl);
+        return $Subscribers->Delete($this->sSubscriberId);
+    }
+
+
+    public function getV(): int
+    {
+        return $this->iV;
+    }
+
+    public function getCreatedAt(): string
+    {
+        return $this->sCreatedAt;
+    }
+
+    public function getUpdatedt(): string
+    {
+        return $this->sUpdatedAt;
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->bDeleted;
+    }
 
     public function getInternalId(): ?string
     {

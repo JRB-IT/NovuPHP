@@ -19,12 +19,26 @@ class Subscribers implements novu\interfaces\ISubscribers {
 
     const LIST_ENDPOINT = "/v1/subscribers?page=:page";
     const CREATE_ENDPOINT = "/v1/subscribers";
-    const CANCEL_EVENT_ENDPOINT = "/v1/events/trigger/:transactionId";
+    const DELETE_ENDPOINT = "/v1/subscribers/:subscriberId";
 
     public function __construct(
         private string $sApiKey,
         private string $sApiUrl
     ){}
+
+
+    public function Delete(string $sSubscriberId): bool
+    {
+
+        $Request = novu\HTTP::DELETE(novu\Client::constructUrl($this->sApiUrl, self::DELETE_ENDPOINT, [
+            ":subscriberId" => $sSubscriberId
+            ]
+        ), [
+            'Authorization: ApiKey ' . $this->sApiKey
+        ]);
+
+        return $Request->getCode() == 200;
+    }
 
     public function List(int $iPage = 0): novu\models\MListSubscriberResponse {
 
@@ -50,7 +64,13 @@ class Subscribers implements novu\interfaces\ISubscribers {
                 $Subscriber->subscriberId,
                 $Subscriber->channels ?? [],
                 $Subscriber->_organizationId,
-                $Subscriber->_environmentId
+                $Subscriber->_environmentId,
+                $Subscriber->deleted,
+                $Subscriber->createdAt,
+                $Subscriber->updatedAt,
+                $Subscriber->__v,
+                $this->sApiKey,
+                $this->sApiUrl
             );
 
 
