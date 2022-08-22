@@ -28,17 +28,65 @@ class Subscribers implements novu\interfaces\ISubscribers {
     ){}
 
 
-    public function Update(string $sSubscriberId): bool
+    public function Update(novu\models\requests\mSubscriber $mSubscriber): bool
     {
 
-        $Request = novu\HTTP::DELETE(novu\Client::constructUrl($this->sApiUrl, self::DELETE_ENDPOINT, [
-            ":subscriberId" => $sSubscriberId
+        $aData = [];
+
+        if($mSubscriber->getFirstName() !== null){
+            $aData["firstName"] = ($mSubscriber->getFirstName() === "" ? null : $mSubscriber->getFirstName());;
+        }
+
+        if($mSubscriber->getLastName() !== null){
+            $aData["lastName"] = ($mSubscriber->getLastName() === "" ? null : $mSubscriber->getLastName());
+        }
+
+        if($mSubscriber->getEmail() !== null){
+            $aData["email"] = ($mSubscriber->getEmail() === "" ? null : $mSubscriber->getEmail());
+        }
+
+        if($mSubscriber->getPhone() !== null){
+            $aData["phone"] = ($mSubscriber->getPhone() === "" ? null : $mSubscriber->getPhone());
+        }
+
+        if($mSubscriber->getAvatar() !== null){
+            $aData["avatar"] = ($mSubscriber->getAvatar() === "" ? null : $mSubscriber->getAvatar());
+        }
+
+        $Request = novu\HTTP::PUT(novu\Client::constructUrl($this->sApiUrl, self::UPDATE_ENDPOINT, [
+            ":subscriberId" => $mSubscriber->getSubscriberId()
             ]
-        ), [
+        ),
+        $aData,
+        [
             'Authorization: ApiKey ' . $this->sApiKey
         ]);
 
-        return $Request->getCode() == 200;
+
+        if ($Request->getCode() != 200) {
+            throw new \Exception($Request->getCode() . " Request Error.");
+        }
+
+        $Subscriber = json_decode($Request->getBody())->data;
+
+        return new novu\models\mDetailedSubscriber(
+                $Subscriber->_id,
+                $Subscriber->firstName ?? null,
+                $Subscriber->lastName ?? null,
+                $Subscriber->email ?? null,
+                $Subscriber->phone ?? null,
+                $Subscriber->avatar ?? null,
+                $Subscriber->subscriberId,
+                $Subscriber->channels ?? [],
+                $Subscriber->_organizationId,
+                $Subscriber->_environmentId,
+                $Subscriber->deleted,
+                $Subscriber->createdAt,
+                $Subscriber->updatedAt,
+                $Subscriber->__v,
+                $this->sApiKey,
+                $this->sApiUrl
+            );
     }
 
     public function Delete(string $sSubscriberId): bool
