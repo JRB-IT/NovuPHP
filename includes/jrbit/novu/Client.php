@@ -48,6 +48,10 @@ class Client {
         return new api\Subscribers($this->sApiKey, $this->sApiUrl);
     }
 
+    public function Messages(): api\Messages
+    {
+        return new api\Messages($this->sApiKey, $this->sApiUrl);
+    }
 
 
 }
