@@ -14,4 +14,5 @@ interface ISubscribers {
     public function __construct(string $sApiKey, string $sApiUrl);
 
     public function List(int $iPage = 0): novu\models\responses\mListSubscriberResponse;
+    public function Update(novu\models\requests\mSubscriber $mSubscriber): novu\models\mDetailedSubscriber;
 }

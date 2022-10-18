@@ -9,6 +9,7 @@ namespace jrbit\novu\api;
 
 
 use jrbit\novu;
+use jrbit\novu\models\mDetailedSubscriber;
 
 /**
  *
@@ -28,7 +29,7 @@ class Subscribers implements novu\interfaces\ISubscribers {
     ){}
 
 
-    public function Update(novu\models\requests\mSubscriber $mSubscriber): bool
+    public function Update(novu\models\requests\mSubscriber $mSubscriber): mDetailedSubscriber
     {
 
         $aData = [];
